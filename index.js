@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const app = express();
 const path = require("path");
 const cors = require("cors");
-
+require("dotenv").config();
 // ROUTES
 const userRoutes = require("./routes/users");
 
@@ -13,7 +13,7 @@ app.set("views", path.join(__dirname, "/views"));
 app.set("view engine", "ejs");
 
 mongoose
-  .connect("mongodb://localhost:27017/rest", {
+  .connect(process.env.DB_URL || "mongodb://localhost:27017/api", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
@@ -34,7 +34,10 @@ app.get("/", (req, res) => {
 });
 app.use("/users", userRoutes);
 
-const PORT = 3000;
+let PORT = process.env.PORT;
+if (PORT == null || PORT == "") {
+  PORT = 8000;
+}
 app.listen(PORT, () => {
   console.log(`LISTENING ON PORT: ${PORT}`);
 });
