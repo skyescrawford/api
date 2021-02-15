@@ -7,6 +7,7 @@ const cors = require("cors");
 require("dotenv").config();
 // ROUTES
 const userRoutes = require("./routes/users");
+const todoRoutes = require("./routes/todos");
 
 app.set("views", path.join(__dirname, "/views"));
 
@@ -33,6 +34,7 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 app.use("/users", userRoutes);
+app.use("/todos", todoRoutes);
 
 let PORT = process.env.PORT;
 if (PORT == null || PORT == "") {
